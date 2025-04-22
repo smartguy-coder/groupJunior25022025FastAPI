@@ -43,7 +43,6 @@ services:
     networks:
       - main_network
 
-
 networks:
   main_network:
     driver: bridge
