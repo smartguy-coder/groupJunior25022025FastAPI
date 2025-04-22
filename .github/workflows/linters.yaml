@@ -27,9 +27,15 @@ jobs:
           installer-parallel: true
 
 
+
       - name: Install dependencies
         run: |
           poetry init -n
+          if ! grep -q 'package-mode' pyproject.toml; then
+             echo '[tool.poetry]' >> pyproject.toml
+             echo 'package-mode = false' >> pyproject.toml
+          fi
+
           poetry install
           poetry add black
           poetry add isort
