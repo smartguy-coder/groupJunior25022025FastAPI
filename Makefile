@@ -7,6 +7,3 @@ up:
 
 down:
 	${DC} down
-
-
-
