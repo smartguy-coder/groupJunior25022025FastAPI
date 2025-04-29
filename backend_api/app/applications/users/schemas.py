@@ -11,8 +11,16 @@ class PasswordField(BaseModel):
 
     @model_validator(mode="before")
     def validate_password(cls, values: dict, info: ValidationInfo) -> dict:
-        print(values, 5555555555555555555)
-        print(info, 5555555555555555555)
+        password = (values.get('password') or '').strip()
+        if not password:
+            raise ValueError('Password required')
+
+        if len(password) < 8:
+            raise ValueError('Too short password')
+
+        if ' ' in password:
+            raise ValueError('No spaces in password')
+
         return values
 
 
