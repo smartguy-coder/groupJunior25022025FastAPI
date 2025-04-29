@@ -19,7 +19,7 @@ class PasswordField(BaseModel):
             raise ValueError('Too short password')
 
         if ' ' in password:
-            raise ValueError('No spaces in password')
+            raise ValueError('No spaces in password, please')
 
         return values
 
