@@ -3,9 +3,7 @@ from pydantic import (BaseModel, EmailStr, Field, ValidationInfo,
 
 
 class BaseFields(BaseModel):
-    email: EmailStr = Field(
-        description="User email", examples=["test_hillel_api_mailing@ukr.net"]
-    )
+    email: EmailStr = Field(description="User email", examples=["test_hillel_api_mailing@ukr.net"])
     name: str = Field(description="User nickname", examples=["Casper"])
 
 
