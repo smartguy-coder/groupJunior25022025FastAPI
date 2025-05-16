@@ -1,13 +1,13 @@
+from datetime import timedelta, datetime
+
 from applications.auth.password_handler import PasswordEncrypt
 from applications.users.crud import get_user_by_email
 from settings import settings
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
+import jwt
 
 from sqlalchemy.ext.asyncio import AsyncSession
-
-
-from database.session_dependencies import get_async_session
 
 
 class AuthHandler:
@@ -33,6 +33,12 @@ class AuthHandler:
                 detail='Incorrect password'
             )
 
+    async def create_token(self, payload: dict, expiry: timedelta) -> str:
+        now = datetime.now()
+        time_payload = {"exp": now + expiry, "iat": now}
+        token = jwt.encode(payload | time_payload, self.secret, self.algorithm)
+        print(token)
+        return token
 
 
 
