@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Request, Form, Depends
+from fastapi import APIRouter, Request, Form, Depends, status
 from fastapi.templating import Jinja2Templates
-from
+from fastapi.responses import  RedirectResponse
 import httpx
 
 router = APIRouter()
@@ -50,7 +50,8 @@ async def login(request: Request, user: dict=Depends(get_current_user_with_token
     context = {'request': request, 'user': user}
     if user:
         redirect_url = request.url_for("index")
-        response =
+        response = RedirectResponse(redirect_url, status_code=status.HTTP_303_SEE_OTHER)
+        return response
 
 
     user_tokens = await login_user(user_email, password)
