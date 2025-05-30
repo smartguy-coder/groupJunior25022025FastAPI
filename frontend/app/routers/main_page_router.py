@@ -47,10 +47,16 @@ async def get_current_user_with_token(request: Request) -> dict:
 @router.get('/login')
 @router.post('/login')
 async def login(request: Request, user: dict=Depends(get_current_user_with_token), user_email: str = Form(''), password: str = Form('')):
-    context = {'request': request, 'user': user}
-    if user:
+    context = {'request': request}
+    print(user, 55555555555555555555555)
+    if user.get('name'):
         redirect_url = request.url_for("index")
         response = RedirectResponse(redirect_url, status_code=status.HTTP_303_SEE_OTHER)
+        return response
+
+    if request.method == "GET":
+        response = templates.TemplateResponse('login.html', context=context)
+        response.delete_cookie('access_token')
         return response
 
 
@@ -59,8 +65,6 @@ async def login(request: Request, user: dict=Depends(get_current_user_with_token
     user = None
     if access_token:
         user = await get_user_info(access_token)
-
-
 
     response = templates.TemplateResponse('login.html', context=context)
     response.set_cookie(key="access_token", value=access_token, httponly=True, max_age=60*5)
