@@ -59,13 +59,13 @@ async def login(request: Request, user: dict=Depends(get_current_user_with_token
         response.delete_cookie('access_token')
         return response
 
-
     user_tokens = await login_user(user_email, password)
     access_token = user_tokens.get('access_token')
-    user = None
-    if access_token:
-        user = await get_user_info(access_token)
+    if not access_token:
+        return templates.TemplateResponse('login.html', context=context)
 
+    user = await get_user_info(access_token)
+    context["user"] = user
     response = templates.TemplateResponse('login.html', context=context)
     response.set_cookie(key="access_token", value=access_token, httponly=True, max_age=60*5)
     return response
