@@ -77,11 +77,6 @@ async def register(
 
 
 
-
-
-
-
-
     user_tokens = await login_user(user_email, password)
     access_token = user_tokens.get('access_token')
     if not access_token:
