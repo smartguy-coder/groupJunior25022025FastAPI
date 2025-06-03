@@ -73,16 +73,11 @@ async def register(
         return response
 
     created_user = await register_user(user_email=user_email, password=password, name=user_name)
-    print(created_user, 9999999999999999999999999999999)
+    if created_user['email']:
 
-
-
-    # user_tokens = await login_user(user_email, password)
-    # access_token = user_tokens.get('access_token')
-    # if not access_token:
-    #     errors = ["Incorrect login or password"]
-    #     context['errors'] = errors
-    #     return templates.TemplateResponse('login.html', context=context)
-    response = RedirectResponse(redirect_url, status_code=status.HTTP_303_SEE_OTHER)
-    # response.set_cookie(key="access_token", value=access_token, httponly=True, max_age=60 * 5)
-    return response
+        user_tokens = await login_user(user_email, password)
+        access_token = user_tokens.get('access_token')
+         #     context['errors'] = errors
+        response = RedirectResponse(redirect_url, status_code=status.HTTP_303_SEE_OTHER)
+        response.set_cookie(key="access_token", value=access_token, httponly=True, max_age=60 * 5)
+        return response
