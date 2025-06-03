@@ -19,6 +19,7 @@ flake8 = "^7.2.0"
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 bcrypt = "^4.3.0"
 pyjwt = "^2.10.1"
+sentry-sdk = {extras = ["fastapi"], version = "^2.29.1"}
 
 
 [build-system]
