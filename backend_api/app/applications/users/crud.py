@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
@@ -15,7 +17,6 @@ async def create_user_in_db(email, name, password, session: AsyncSession) -> Use
     return new_user
 
 
-
 async def get_user_by_email(email, session: AsyncSession) -> User | None:
     query = select(User).filter(User.email == email)
     result = await session.execute(query)
@@ -23,4 +24,8 @@ async def get_user_by_email(email, session: AsyncSession) -> User | None:
 
 
 async def activate_user_account(user_uuid, session: AsyncSession):
-    pass
+    query = select(User).filter(User.uuid_data == user_uuid)
+    result = await session.execute(query)
+    user = result.scalar_one_or_none()
+    if not user:
+        raise HTTPException(status_code=400, detail='Provided data does not belongs ')
