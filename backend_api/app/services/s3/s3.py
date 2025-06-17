@@ -38,7 +38,12 @@ class  S3Storage:
         ) as s3:
             yield s3
 
-    async def upload_file(self) -> str:
-        return ''
+    async def upload_product_image(self, file: UploadFile, product_uuid: str) -> str:
+        async for s3_client in self.get_s3_session():
+            path = f'products/{product_uuid}/{file.filename}'
+            await s3_client.upload_fileobj(file, self.bucket_name, path)
+            url = f"{PUBLIC_URL}/{path}"
+        return url
+
 
 s3_storage = S3Storage()

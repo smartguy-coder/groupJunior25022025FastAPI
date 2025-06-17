@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Body, UploadFile
 
+from services.s3.s3 import s3_storage
+
 products_router = APIRouter()
 
 
@@ -12,6 +14,8 @@ async def create_product(
     price: float = Body(gt=1),
 ):
 
+    url = await s3_storage.upload_product_image(main_image, product_uuid='kjdfghkjfdg')
+    print(url)
     return
 
 
