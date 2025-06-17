@@ -22,7 +22,6 @@ async def create_product(
         session: AsyncSession = Depends(get_async_session),
 ):
     product_uuid = uuid.uuid4()
-    product_uuid_str = str(product_uuid)
     main_image = await s3_storage.upload_product_image(main_image, product_uuid=product_uuid)
     images = images or []
     images_urls = []

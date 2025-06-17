@@ -1,17 +1,4 @@
-import uuid
-
-from fastapi import HTTPException
-
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
-
-from applications.auth.password_handler import PasswordEncrypt
 from applications.products.models import Product
-from sqlalchemy.ext.asyncio import AsyncSession
-
-from applications.users.crud import create_user_in_db, get_user_by_email, activate_user_account
-from applications.users.schemas import BaseUserInfo, RegisterUserFields
-from database.session_dependencies import get_async_session
 
 
 async def create_product_in_db(product_uuid, title, description, price, main_image, images, session) -> Product:
