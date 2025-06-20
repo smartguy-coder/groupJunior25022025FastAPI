@@ -1,7 +1,7 @@
 from typing import Annotated
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import asc, desc, select, func
+from sqlalchemy import asc, desc, select, func, or_
 import math
 
 from applications.products.models import Product
@@ -20,8 +20,8 @@ async def create_product_in_db(product_uuid, title, description, price, main_ima
     """
     new_product = Product(
         uuid_data=product_uuid,
-        title=title,
-        description=description,
+        title=title.strip(),
+        description=description.strip(),
         price=price,
         main_image=main_image,
         images=images
@@ -38,7 +38,15 @@ async def get_products_data(params: SearchParamsSchema, session: AsyncSession):
 
     order_direction = asc if params.order_direction == SortEnum.ASC else desc
 
-    # if params.q:
+    if params.q:
+        if params.use_sharp_q_filter:
+
+            cleaned_query = params.q.strip().lower()
+            search_fields = [Product.title, Product.description]
+            search_condition = or_(*[func.lower(field) == cleaned_query for field in search_fields])
+
+            query = query.filter(search_condition)
+            count_query = count_query.filter(search_condition)
 
 
     sort_field = Product.price if params.sort_by == SortByEnum.PRICE else Product.id
