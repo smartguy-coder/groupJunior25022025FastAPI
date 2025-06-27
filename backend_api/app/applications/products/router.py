@@ -18,7 +18,7 @@ products_router = APIRouter()
 
 
 @products_router.post('/',
-                      # dependencies=[Depends(admin_required)]
+                      dependencies=[Depends(admin_required)]
                       )
 async def create_product(
         main_image: UploadFile,
