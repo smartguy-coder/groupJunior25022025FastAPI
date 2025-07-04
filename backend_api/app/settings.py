@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int
     POSTGRES_HOST: str
 
+    STRIPE_SECRET_KEY: str
+
     DEBUG: bool = False
 
     JWT_SECRET: str
