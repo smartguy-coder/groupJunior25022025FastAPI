@@ -20,6 +20,6 @@ def get_application() -> FastAPI:
     app.include_router(router_auth, prefix="/auth", tags=["Auth"])
     app.include_router(products_router, prefix="/products", tags=["Products"])
     app.include_router(cart_router, prefix="/carts", tags=["Cart"])
-    app.include_router(products_router, prefix="/payment", tags=["Payment"])
+    app.include_router(router_payment, prefix="/payment", tags=["Payment"])
 
     return app
